@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, PanResponder, Animated } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, PanResponder, Animated, RectButton } from 'react-native';
 import { Notificacion } from './Notificacion.js';
+import { GestureHandler } from 'expo';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+
 
 
 const url =  "https://api.github.com/notifications?all=true";
 
 const headers = {
   headers: {
-    'Authorization': 'token e792ef80103db2a8e9e2cf7cc1b9aaf702c6679b'
+    'Authorization': 'token 7ea8ad3e80b0170f9f058cfc0fa796c5daff34ef'
   }
 };
 
@@ -17,8 +20,29 @@ export default class App extends React.Component {
     super();
     this.onPress = this.onPress.bind(this);
     this.state = { notifications: [], pan: new Animated.ValueXY()};
-
   }
+
+
+  renderLeftActions = (progress, dragX) => {
+    const trans = dragX.interpolate({
+      inputRange: [0, 50, 100, 101],
+      outputRange: [-20, 0, 0, 1],
+    });
+    return (
+      <RectButton >
+        <Animated.Text
+          style={[
+ 
+            {
+              transform: [{ translateX: trans }],
+            },
+          ]}>
+          Archive
+        </Animated.Text>
+      </RectButton>
+    );
+  };
+
 
   onPress = () => {
      return fetch(url, headers)
@@ -27,16 +51,17 @@ export default class App extends React.Component {
       return response.json();
     })
     .then ( (responseJson) => {
-      console.log(responseJson);
+    
       this.update(responseJson);
     })
     .catch((error) => {
-      console.error(error);
+      console.error('ERROR: ' + error);
     });
   }
 
   update(notifications) {
     this.setState({notifications: notifications});
+      console.log(notifications);
   }
 
   render() {
@@ -46,7 +71,9 @@ export default class App extends React.Component {
 
     const issuesTitles = this.state.notifications.map(notif => {
       return (
-        <Notificacion key={notif.id} title={notif.subject.title}> </Notificacion>
+        <Swipeable renderLeftActions={this.renderLeftActions}>
+          <Notificacion key={notif.id} title={notif.subject.title}> </Notificacion>
+        </Swipeable>
       )
     })
 
