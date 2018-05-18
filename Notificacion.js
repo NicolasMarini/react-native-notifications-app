@@ -1,17 +1,89 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, PanResponder, Animated } from 'react-native';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
-export class Notificacion extends React.Component {
+export class Notificacion extends React.PureComponent {
 
   constructor(props) {
     super();
-    //this.onPress = this.onPress.bind(this);
-    this.state = { notifications: [], pan: new Animated.ValueXY() };
+    this.deleteItem = this.deleteItem.bind(this);
+    this.state = { notifications: [] };
   }
 
+  renderRightActions = (progress, dragX) => {
+    return (
+      <View style={styles.buttonsContainer}>
+        <BorderlessButton style={{ flex: 1}}>
+          <TouchableOpacity onPress={this.deleteItem} style={styles.button} >
+            <Icon
+              name='trash-o'
+              size={30}
+              color='white'
+            />
+          </TouchableOpacity>
+        </BorderlessButton>
+      </View>
+    );
+  };
 
+  deleteItem() {
+    this.props.deleteItem(this.props.id);
+  }
+
+  render() {
+    return (
+      <View>
+        <Swipeable renderRightActions={this.renderRightActions} rightThreshold={80} friction={2}> 
+          <Text style={styles.item} onLongPress={this.onPress}> {this.props.title}
+          </Text>    
+        </Swipeable>
+      </View>
+    )
+  }
+}
+
+const styles = StyleSheet.create({
+  item: {
+    alignItems: 'center',
+    padding: 30,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 7,
+    borderColor: '#2a4944',
+    borderWidth: 1,
+    backgroundColor: '#247BA0',
+    borderRadius: 8,
+    borderWidth: 3,
+    borderColor: '#CAC4CE',
+    color: '#FFF',
+    fontSize: 14,
+    fontFamily: 'Roboto',
+    fontWeight: 'bold'
+  },
+  button: {
+    flex: 1,
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 3,
+    borderColor: '#CAC4CE',
+    justifyContent: 'center'
+  },
+  buttonsContainer: {
+    marginTop: 7,
+    marginRight: 15,
+    marginLeft: -15,
+  }
+
+});
+
+
+
+/*
   componentWillMount() {
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => true,
@@ -33,40 +105,4 @@ export class Notificacion extends React.Component {
       }
     });
   }
-
-  /*
-  getTitle() {
-    return (
-      <Animated.View key={this.props.id} {...this._panResponder.panHandlers} style={imageStyle}>
-        <Text style={styles.item}> {notif.subject.title}
-        </Text>
-    </Animated.View>
-    
-  )};
-*/
-  render() {
-    let { pan } = this.state;
-    let [translateX, translateY] = [pan.x, pan.y];
-    let imageStyle = { transform: [{ translateX }, { translateY }] };
-    return (
-      <Animated.View key={this.props.id} {...this._panResponder.panHandlers} style={imageStyle}>
-        <Text style={styles.item}> {this.props.title}
-        </Text>
-      </Animated.View>
-    )
-  }
-
-}
-
-const styles = StyleSheet.create({
-  item: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 30,
-    margin: 2,
-    borderColor: '#2a4944',
-    borderWidth: 1,
-    backgroundColor: '#d2f7f1'
-  }
-});
-
+  */
