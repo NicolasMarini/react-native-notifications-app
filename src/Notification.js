@@ -1,24 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, PanResponder, Animated } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Animated } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { createStackNavigator } from 'react-navigation';
 
 
 
-export class Notificacion extends React.PureComponent {
+
+
+
+export class Notification extends React.PureComponent {
 
   constructor(props) {
     super();
     this.deleteItem = this.deleteItem.bind(this);
-    this.state = { notifications: [] };
+    this.goToEdit = this.goToEdit.bind(this);
   }
 
   renderRightActions = (progress, dragX) => {
     return (
       <View style={styles.buttonsContainer}>
         <BorderlessButton style={{ flex: 1}}>
-          <TouchableOpacity onPress={this.deleteItem} style={styles.button} >
+          <TouchableOpacity onPress={this.deleteItem} style={styles.rightButton} >
             <Icon
               name='trash-o'
               size={30}
@@ -30,15 +34,37 @@ export class Notificacion extends React.PureComponent {
     );
   };
 
+  renderLeftActions = (progress, dragX) => {
+    return (
+      <View style={styles.leftButtonsContainer}>
+        <BorderlessButton style={{ flex: 1}}>
+          <TouchableOpacity onPress={this.goToEdit} style={styles.leftButton} >
+            <Icon
+              name='pencil-square-o'
+              size={30}
+              color='white'
+            />
+          </TouchableOpacity>
+        </BorderlessButton>
+      </View>
+    );
+  };
+
+
   deleteItem() {
     this.props.deleteItem(this.props.id);
+  }
+
+  goToEdit() {
+    this.props.goToEdit(this.props.selectedNotification);
   }
 
   render() {
     return (
       <View>
-        <Swipeable renderRightActions={this.renderRightActions} rightThreshold={80} friction={2}> 
-          <Text style={styles.item} onLongPress={this.onPress}> {this.props.title}
+        <Swipeable renderRightActions={this.renderRightActions} rightThreshold={80} friction={2}
+                   renderLeftActions={this.renderLeftActions} > 
+          <Text style={styles.item}> {this.props.title}
           </Text>    
         </Swipeable>
       </View>
@@ -64,9 +90,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: 'bold'
   },
-  button: {
+  rightButton: {
     flex: 1,
     backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 3,
+    borderColor: '#CAC4CE',
+    justifyContent: 'center'
+  },
+  leftButton: {
+    flex: 1,
+    backgroundColor: '#50514F',
     padding: 10,
     borderRadius: 8,
     borderWidth: 3,
@@ -77,6 +112,11 @@ const styles = StyleSheet.create({
     marginTop: 7,
     marginRight: 15,
     marginLeft: -15,
+  },
+  leftButtonsContainer: {
+    marginTop: 7,
+    marginRight: -15,
+    marginLeft: 15,
   }
 
 });
