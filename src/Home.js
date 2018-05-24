@@ -14,7 +14,7 @@ const url =  "https://api.github.com/notifications?all=true";
 
 const headers = {
   headers: {
-    'Authorization': 'token 958999e4e66fd5422898b022b20cf82fa1c61ee3'
+    'Authorization': 'token f0a7cd620c4dc042525883e79037ff73e99f6cdb'
   }
 };
 
@@ -30,6 +30,7 @@ export class Home extends React.Component {
     this.state = { notifications: [], pan: new Animated.ValueXY(), selectedNotification: null, animating: false, nav: null };
     this.onPress = this.onPress.bind(this);
     this.onSaveChanges = this.onSaveChanges.bind(this);
+    this.onUpdateNotif = this.onUpdateNotif.bind(this);
   }
 
 
@@ -68,8 +69,12 @@ export class Home extends React.Component {
       //console.log(notifications);
   }
 
+  onUpdateNotif(notif) {
+    this.setState({selectedNotification: notif});
+  }
+
   goToEdit = (selectedNotification) => {
-    this.props.navigation.navigate('NotificationEdit', {selectedNotification: selectedNotification});
+    this.props.navigation.navigate('NotificationEdit', { selectedNotification: this.state.selectedNotification });
   }
 
   onSaveChanges = (notification) => {
@@ -102,7 +107,7 @@ export class Home extends React.Component {
                           deleteItem={this.deleteItem} 
                           selectedNotification={item}
                           goToEdit={this.goToEdit}
-              onSaveChanges={this.onSaveChanges}
+                          onSaveChanges={this.onSaveChanges}
             />
           )
         }} 
