@@ -15,21 +15,33 @@ export class NotificationEdit extends React.Component {
 
   };
   
+
+  componentDidMount = () => {
+    var n = this.props.navigation.getParam('selectedNotification', 'NO-SELECTED');
+    this.setState({ p: 'dsadsads'});
+  }
+
+
   constructor(props) {
     super();
-    this.state = { notification: null };
+    this.state = { notification: props.navigation.state.params.selectedNotification, notificationTitle: null };
     this.saveChanges = this.saveChanges.bind(this);
   }
 
 
-  saveChanges = (n) => {
-    this.setState({ notification: n }); 
-    console.log('PARAM: ' + JSON.stringify(this.state.notification, null, 1));
+  changeTitle = (newTitle) => {
+    let notification = this.state.notification;
+    notification.subject.title = newTitle; 
+    this.setState({ notification }); 
+    console.log('NOTIFICACION ACTUALIZADA: ' + JSON.stringify(this.state.notification, null, 1));
+  }
+
+  saveChanges = () => {
+    
   }
 
   render() {
-
-    const n = this.props.navigation.getParam('selectedNotification', 'NO-SELECTED');
+    var n = this.props.navigation.getParam('selectedNotification', 'NO-SELECTED');
     
     
     //console.log('PARAM: ' + JSON.stringify(this.state.notification, null, 1));
@@ -37,8 +49,8 @@ export class NotificationEdit extends React.Component {
       <View>
         <TextInput
           style={{ height: 40, borderColor: 'gray'}}
-          //onChangeText={(text) => this.setState({ text })}
-          value={n.subject.title}
+          onChangeText={(text) => this.changeTitle(text)}
+          value={this.state.notification.subject.title}
         />
         <TouchableOpacity style={{backgroundColor: '#247BA0'}} onPress={this.saveChanges}>
           <Text> Guardar Cambios </Text>
