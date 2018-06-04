@@ -56,6 +56,7 @@ export class Notification extends React.PureComponent {
   }
 
   goToEdit() {
+    console.log('this.props.selectedNotification: ' + this.props.selectedNotification.subject.title);
     this.props.goToEdit(this.props.selectedNotification);
   }
 

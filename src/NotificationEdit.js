@@ -18,13 +18,14 @@ export class NotificationEdit extends React.Component {
 
   componentDidMount = () => {
     var n = this.props.navigation.getParam('selectedNotification', 'NO-SELECTED');
-    console.log('PARAMS::: ' + JSON.stringify(n, null, 1));
+    console.log('PARAMS en componentDidMount: ' + this.props.navigation.getParam('selectedNotification'));
+    this.setState({ notification: this.props.navigation.getParam('selectedNotification')});
   }
 
 
   constructor(props) {
     super();
-    this.state = { notification: null, notificationTitle: null };
+    this.state = { notification: props.navigation.getParam('selectedNotification', 'NO-SELECTED'), notificationTitle: props.navigation.getParam('selectedNotification').subject.title };
     this.saveChanges = this.saveChanges.bind(this);
   }
 
@@ -40,11 +41,14 @@ export class NotificationEdit extends React.Component {
     this.setState({ notification });
     //console.log('NOTIFICACION ACTUALIZADA: ' + JSON.stringify(this.state.notification, null, 1));
     //this.props.navigation
-    this.props.navigation.navigate('Home');
+    //this.props.navigation.navigate('Home');
+
+
+    this.props.navigation.goBack();
+    this.props.navigation.state.params.onUpdateNotif({ selectedNotification: this.state.notification });
   }
 
   render() {
-    console.log('PARAMS::: ' + JSON.stringify(this.props.navigation.getParam('onUpdateNotif'), null, 1));
     return(
       <View>
         <TextInput

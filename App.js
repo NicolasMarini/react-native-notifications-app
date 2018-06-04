@@ -9,17 +9,6 @@ import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
 import { createStackNavigator } from 'react-navigation';
 
 
-
-
-const url =  "https://api.github.com/notifications?all=true";
-
-const headers = {
-  headers: {
-    'Authorization': 'token 2d4077edb48f1c9e10233664e84f006dc346c9c4'
-  }
-};
-
-
 const AppNavigator = createStackNavigator({
   Home: { screen: Home },
   NotificationEdit: { screen: NotificationEdit },

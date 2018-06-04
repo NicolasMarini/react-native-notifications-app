@@ -14,7 +14,7 @@ const url =  "https://api.github.com/notifications?all=true";
 
 const headers = {
   headers: {
-    'Authorization': 'token f0a7cd620c4dc042525883e79037ff73e99f6cdb'
+    'Authorization': 'token 2bf4d324acb053c9fb3f52ad8727e44a24f8c29f'
   }
 };
 
@@ -74,7 +74,8 @@ export class Home extends React.Component {
   }
 
   goToEdit = (selectedNotification) => {
-    this.props.navigation.navigate('NotificationEdit', { selectedNotification: this.state.selectedNotification });
+    console.log('SELECTED NOTIF => ' + selectedNotification.id);
+    this.props.navigation.navigate('NotificationEdit', { selectedNotification: selectedNotification, onUpdateNotif: this.onUpdateNotif });
   }
 
   onSaveChanges = (notification) => {
