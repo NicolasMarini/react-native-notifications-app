@@ -1,15 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, PanResponder, Animated, FlatList, ActivityIndicator, Modal } from 'react-native';
-import { Notification } from './src/Notification';
-import { NotificationEdit } from './src/NotificationEdit';
-import { Home } from './src/Home';
+import { Notification } from './src/components/Notification';
+import { NotificationEdit } from './src/components/NotificationEdit';
+import { Home } from './src/components/Home';
 import { GestureHandler } from 'expo';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
 import { createStackNavigator } from 'react-navigation';
+import { notificationsReducer } from './src/reducers/Notifications';
 
+import { combineReducers, applyMiddleware } from 'redux'
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { createLogger } from 'redux-logger'
 
+import HomeContainer from "./src/components/Home/HomeContainer";
 
+import thunkMiddleware from 'redux-thunk';
 
 const url =  "https://api.github.com/notifications?all=true";
 
@@ -21,7 +28,7 @@ const headers = {
 
 
 const AppNavigator = createStackNavigator({
-  Home: { screen: Home },
+  Home: { screen: HomeContainer },
   NotificationEdit: { screen: NotificationEdit },
   
 },  
@@ -29,19 +36,21 @@ const AppNavigator = createStackNavigator({
   initialRouteName: 'Home',
 });
 
+
+const app = combineReducers({
+  notifications: notificationsReducer
+});
+
+//const loggerMiddleware = createLogger();
+const store = createStore(app, applyMiddleware(thunkMiddleware));
+
+
 export default class App extends React.Component {
-
-  constructor(props) {
-    super();
-   
-  }
-
-  
-  
-
   render() {
-    return <AppNavigator />
-    
+    return (
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+    )
   }
 }
-

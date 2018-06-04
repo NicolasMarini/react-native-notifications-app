@@ -6,6 +6,7 @@ import { GestureHandler } from 'expo';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { RectButton, BorderlessButton } from 'react-native-gesture-handler';
 import { createStackNavigator } from 'react-navigation';
+import { connect } from 'react-redux';
 
 
 
@@ -41,7 +42,7 @@ export class Home extends React.Component {
   onPress () {
     this.setState({animating: true});
 
-     return fetch(url, headers)
+    return fetch(url, headers)
     .then((response) => {
       return response.json();
     })
@@ -118,6 +119,8 @@ export class Home extends React.Component {
     );
   }
 }
+
+
 
 
 const styles = StyleSheet.create({
