@@ -14,7 +14,7 @@ const url =  "https://api.github.com/notifications?all=true";
 
 const headers = {
   headers: {
-    'Authorization': 'token 2bf4d324acb053c9fb3f52ad8727e44a24f8c29f'
+    'Authorization': 'token a87d32b239fe8885d0cdbd8c1d30811cb421cea2'
   }
 };
 
@@ -130,10 +130,10 @@ const styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   button: {
-    marginTop:50,
+    marginTop:25,
     marginLeft: 15,
     marginRight: 15,
-    marginBottom: 17,
+    marginBottom: 15,
     backgroundColor: '#50514F',
     padding: 10,
   },
