@@ -3,7 +3,7 @@ const url = 'https://api.github.com/notifications?all=true';
 
 const headers = {
   headers: {
-    'Authorization': 'token 46fd5e34b30420b16a905b70898e7d74c78e1a29'
+    'Authorization': 'token 952f0e7be254e499c616e6e4eb2796c409bca81e'
   }
 };
 

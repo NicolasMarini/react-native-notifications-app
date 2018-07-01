@@ -10,22 +10,13 @@ import { createStackNavigator } from 'react-navigation';
 import { notificationsReducer } from './src/reducers/Notifications';
 
 import { combineReducers, applyMiddleware } from 'redux'
-import { createStore } from "redux";
+import { createStore, compose } from "redux";
 import { Provider } from "react-redux";
-import { createLogger } from 'redux-logger'
+import { logger } from 'redux-logger'
 
 import HomeContainer from "./src/components/Home/HomeContainer";
 
 import thunkMiddleware from 'redux-thunk';
-
-const url =  "https://api.github.com/notifications?all=true";
-
-const headers = {
-  headers: {
-    'Authorization': 'token 2d4077edb48f1c9e10233664e84f006dc346c9c4'
-  }
-};
-
 
 const AppNavigator = createStackNavigator({
   Home: { screen: HomeContainer },
@@ -42,7 +33,12 @@ const app = combineReducers({
 });
 
 //const loggerMiddleware = createLogger();
-const store = createStore(app, applyMiddleware(thunkMiddleware));
+const store = createStore(app, compose(
+  applyMiddleware(thunkMiddleware, logger)
+  
+));
+
+
 
 
 export default class App extends React.Component {

@@ -16,15 +16,6 @@ import { HomePresentation } from './HomePresentation';
 
 
 
-
-const url = 'https://api.github.com/notifications?all=true';
-
-const headers = {
-  headers: {
-    'Authorization': 'token f0a7cd620c4dc042525883e79037ff73e99f6cdb'
-  }
-};
-
 export class HomeContainer extends React.Component {
 
   static navigationOptions = {

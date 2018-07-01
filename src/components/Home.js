@@ -9,16 +9,6 @@ import { createStackNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
 
-
-
-const url =  "https://api.github.com/notifications?all=true";
-
-const headers = {
-  headers: {
-    'Authorization': 'token f0a7cd620c4dc042525883e79037ff73e99f6cdb'
-  }
-};
-
 export class Home extends React.Component {
 
   static navigationOptions = {
